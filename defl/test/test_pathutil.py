@@ -3,20 +3,26 @@
 """Checks the path manipulation utiltities
 """
 import os
+import os.path
+import shutil
 import pytest
 import defl.pathutil as pathutil
 
 
-TEMP_DIR_NAME = 'temp'
+LOCAL_TEMP_DIR_NAME = 'temp'
 
 
 @pytest.fixture(scope="module")
 def temp_dir():
     """Fixture provides the temporary directory relative to the local path"""
-    temp_dir = os.mkdir(TEMP_DIR_NAME)
-    yield temp_dir  # provide the fixture value
-    os.rmdir(TEMP_DIR_NAME) # tear down the temporary directory
-    
+    temp_path = os.path.abspath(LOCAL_TEMP_DIR_NAME)
+    if os.path.exists(temp_path):
+        shutil.rmtree(temp_path)
+
+    os.mkdir(temp_path)
+    yield temp_path  # provide the fixture value
+    shutil.rmtree(temp_path) # tear down the temporary directory
+
 
 def test_str_to_tokens():
     """checks simple toeknization of the input string
@@ -47,11 +53,24 @@ def test_str_to_dirnames():
     test_input = '"Hello World, Yes, sir!"'
     ref_output = ['Hello World', 'Yes', 'sir!']
     tested_output = pathutil.str_to_dirnames(test_input)
-
     assert ref_output == tested_output
 
-def test_get_abs_dir_path(tmpdir):
+
+def test_get_abs_dir_path(temp_dir):
     """Checks the operation on retreiving absolute file path
+
+    Args:
+        temp_dir - pytest fixture
     """
-    tmpdir.mkdir('a')
-    tmpdir.
+    sub_dir = os.path.join(temp_dir, 'sub')
+    os.mkdir(sub_dir)
+
+    test_input1 = temp_dir
+    ref_output1 = os.path.abspath(test_input1)
+    tested_output1 = pathutil.get_abs_dir_path(test_input1)
+    assert ref_output1 == tested_output1
+
+    test_input2 = sub_dir
+    ref_output2 = os.path.abspath(sub_dir)
+    tested_output2 = pathutil.get_abs_dir_path(test_input2)
+    assert ref_output2 == tested_output2

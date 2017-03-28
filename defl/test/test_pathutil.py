@@ -2,8 +2,21 @@
 # -*- coding: utf8 -*-
 """Checks the path manipulation utiltities
 """
+import os
+import pytest
 import defl.pathutil as pathutil
 
+
+TEMP_DIR_NAME = 'temp'
+
+
+@pytest.fixture(scope="module")
+def temp_dir():
+    """Fixture provides the temporary directory relative to the local path"""
+    temp_dir = os.mkdir(TEMP_DIR_NAME)
+    yield temp_dir  # provide the fixture value
+    os.rmdir(TEMP_DIR_NAME) # tear down the temporary directory
+    
 
 def test_str_to_tokens():
     """checks simple toeknization of the input string
@@ -36,3 +49,9 @@ def test_str_to_dirnames():
     tested_output = pathutil.str_to_dirnames(test_input)
 
     assert ref_output == tested_output
+
+def test_get_abs_dir_path(tmpdir):
+    """Checks the operation on retreiving absolute file path
+    """
+    tmpdir.mkdir('a')
+    tmpdir.

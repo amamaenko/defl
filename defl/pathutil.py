@@ -11,6 +11,18 @@ from typing import List
 import os
 
 
+class NotDirException(Exception):
+    """Thrown by the pathutil module in case where a path that must be a dir
+    already exists, and is a file.
+    """
+    pass
+
+class NotFoundException(Exception):
+    """Thrown by the pathutil module in case where the path cannot be found.
+    """
+    pass
+
+
 def str_to_tokens(user_str: str) -> List[str]:
     """Split the given string into elements using the rules of separation.
     In our case the rule is simple, each token is separated by a comma (,)
@@ -55,16 +67,25 @@ def str_to_dirnames(user_str: str) -> List[str]:
 
 def get_abs_dir_path(dir_name: str) -> str:
     """Returns the full path to the directory on the local machine.
-    Checks if the directory already exists, if not - create a new one, also
-    checks if the specified name is a file.
+
+    This methods checks if the directory already exists, if not - raise the
+    `NotFoundExcpetion`.
+    Then the method checks if the specified name is a file, if not - raise the
+    `NotDirException`.
+
+    Args:
+        dir_name(str): name of the directory relative to the invocation of the
+        util.
+
+    Returns:
+        Absolute path on the local filesystem.
     """
     abs_path = os.path.abspath(dir_name)
-    if os.path.exists(abs_path):
-        if os.path.isdir(abs_path):
-            return abs_path
-        else:
-            raise Exception(
-                "The name {0} already exists and is not a dir".format(abs_path))
-    else:
-        os.mkdir(abs_path)
+    if not os.path.exists(abs_path):
+        raise NotFoundException("Dir {0} cannot be found".format(abs_path))
+
+    if os.path.isdir(abs_path):
         return abs_path
+    else:
+        raise NotDirException(
+            "The name {0} already exists and is not a dir".format(abs_path))

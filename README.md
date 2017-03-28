@@ -9,4 +9,4 @@ parameters of the images: EXIFs, brightness, etc.
 ## No error in the name of the util
 
 "Foto" /ˈfōdō/ - is how "Photo" is pronounced anyways. Perhaps it's not a word
-but the short name for the utility just sounds very nice this way.
+but the short name for the utility just looks nice this way.

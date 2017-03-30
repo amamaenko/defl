@@ -37,7 +37,7 @@ def run():
         dest="is_dry")
     flags = myparser.parse_args()
 
-    folder_names = list(defl.pathutil.str_to_abs_paths(flags.src_folders))
+    folder_names = defl.pathutil.str_to_abs_paths(flags.src_folders)
     if flags.is_dry:
         print(flags)
         print(folder_names)

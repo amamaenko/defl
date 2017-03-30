@@ -109,4 +109,4 @@ def str_to_abs_paths(user_str: str)->List[str]:
     local_dir_paths = str_to_dirnames(user_str)
     abs_dir_paths = map(get_abs_dir_path, local_dir_paths)
 
-    return abs_dir_paths
+    return list(abs_dir_paths)

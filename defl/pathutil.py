@@ -80,7 +80,10 @@ def get_abs_dir_path(dir_name: str) -> str:
     Returns:
         Absolute path on the local filesystem.
     """
-    abs_path = os.path.abspath(dir_name)
+    dir_name = os.path.expanduser(dir_name)
+    abs_path = dir_name if os.path.isabs(dir_name) \
+        else os.path.abspath(dir_name)
+
     if not os.path.exists(abs_path):
         raise NotFoundException("Dir {0} cannot be found".format(abs_path))
 
@@ -89,3 +92,21 @@ def get_abs_dir_path(dir_name: str) -> str:
     else:
         raise NotDirException(
             "The name {0} already exists and is not a dir".format(abs_path))
+
+
+def str_to_abs_paths(user_str: str)->List[str]:
+    """Transforms the string input by user into the list of absolute directory
+    paths on the local file system. These paths are guaranteed to exist and be
+    directories, not files.
+
+    Args:
+        user_str(str): string that contains the list of dir names provided by
+            the user through CLI interface.
+
+    Returns:
+        List[str]: list of absolute paths on the local file system
+    """
+    local_dir_paths = str_to_dirnames(user_str)
+    abs_dir_paths = map(get_abs_dir_path, local_dir_paths)
+
+    return abs_dir_paths

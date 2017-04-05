@@ -15,4 +15,8 @@ def find_duplicates(dirs: List) -> List:
     return found_files
     '''
 
-    return fileutil.scan_directory(dirs[0])
+    all_files = []
+    for dir_name in dirs:
+        all_files = all_files + fileutil.get_files_in_dir(dir_name)
+
+    print(str(all_files))

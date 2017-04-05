@@ -4,34 +4,45 @@
 list of allowed files to scan.
 """
 import os
-import itertools
-from typing import Dict
+from typing import List
 
 from defl.fileinfo import FileInfo
 
 ALLOWED_FILES = []
 
 
-def scan_directory(dir_path: str) -> Dict:
-    """Scans directory for files and returns the dictionary of file info
-    descriptors with file paths as keys.
+def get_files_in_dir(dir_path: str) -> List[FileInfo]:
+    """Scans directory for files and returns the list of FileInfo items.
     """
     dir_walk_items = os.walk(dir_path)
 
-    # TODO: slice first 5 items for testing
-    dir_walk_items = itertools.islice(dir_walk_items, 5)
-
-    files_tree = []
+    all_files = []
     for dir_walk_item in dir_walk_items:
         path_to_dir = dir_walk_item[0]
         file_names = dir_walk_item[2]
         for file_name in file_names:
-            files_tree.append(os.path.join(path_to_dir, file_name))
+            all_files.append(
+                _create_file_info(path_to_dir, file_name)
+            )
 
-        for i in files_tree:
-            print("{0}".format(i))
+    return all_files
 
+def _create_file_info(file_path: str, file_name: str)->FileInfo:
+    """Collects the information about the physical file on disk, and factories
 
-def collect_file_info(file_paths: str) -> Dict[FileInfo]:
-    file_infos = {}
-    return
+    a FileInfo object. Note that the function takes path to the file's location
+    and the file's name as two separate arguments.
+
+    Args:
+        file_path(str): path to the location of the file on the physical disk
+        file_name(str): name of the file
+    """
+
+    full_path = os.path.join(file_path, file_name)
+    info = os.stat(full_path)
+
+    new_file_info = FileInfo(
+        path=file_path,
+        name=file_name,
+        size=info.st_size)
+    return new_file_info

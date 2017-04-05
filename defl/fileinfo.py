@@ -14,10 +14,7 @@ class FileInfo(object):
         size(int): size of the file in bytes
     """
     def __init__(self, path: str, name: str, size: int):
-        """adsfds
-        """
         self.path = path
-
         self.name = name
         self.size = size
 

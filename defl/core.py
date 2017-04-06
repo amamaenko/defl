@@ -36,17 +36,11 @@ def _find_duplicates_in_file_infos(file_infos: List[FileInfo]) -> List[Tuple[Fil
     duplicate_suspects = []
     # using a pseudo-UI `tqdm` library to track progress
     # total number of combinations is n/2 using the math formula
-    with tqdm(total=len(file_infos)/2) as pbar:
+    combinations_count = len(file_infos)*len(file_infos)/2
+    with tqdm(total=combinations_count, unit='pairs', unit_scale=True) as pbar:
         for pair in itertools.combinations(file_infos, 2):
             if pair[0] == pair[1]:
                 duplicate_suspects.append(pair)
             pbar.update()
-    '''
-    for i in file_infos:
-        for j in file_infos:
-            # check that the ojbects are not the same, yet equal
-            if (i is not j) and (i == j):
-                duplicate_suspects.append((i, j))
-    '''
 
     return duplicate_suspects

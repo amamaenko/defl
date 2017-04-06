@@ -25,27 +25,7 @@ def get_files_in_dir(dir_path: str) -> List[FileInfo]:
         for file_name in file_names:
             if file_name not in IGNORED_FILES:
                 all_files.append(
-                    _create_file_info(path_to_dir, file_name)
+                    FileInfo.create(path_to_dir, file_name)
                 )
 
     return all_files
-
-def _create_file_info(file_path: str, file_name: str)->FileInfo:
-    """Collects the information about the physical file on disk, and factories
-
-    a FileInfo object. Note that the function takes path to the file's location
-    and the file's name as two separate arguments.
-
-    Args:
-        file_path(str): path to the location of the file on the physical disk
-        file_name(str): name of the file
-    """
-
-    full_path = os.path.join(file_path, file_name)
-    info = os.stat(full_path)
-
-    new_file_info = FileInfo(
-        path=file_path,
-        name=file_name,
-        size=info.st_size)
-    return new_file_info

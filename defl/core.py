@@ -29,7 +29,8 @@ def find_duplicates(dirs: List[str]) -> List[FileInfo]:
 
     return all_files
 
-def _find_duplicates_in_file_infos(file_infos: List[FileInfo]) -> List[Tuple[FileInfo, FileInfo]]:
+def _find_duplicates_in_file_infos(
+        file_infos: List[FileInfo])->List[Tuple[FileInfo, FileInfo]]:
     """This method scans the list to find duplicate suspects as pairs, and
     returns them in a list
     """

@@ -1,7 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf8 -*-
-"""Contains the class definition for the file information used in searching for
-duplicates"""
+"""Contains the class definition, and instance methods for the file information
+used in searching for duplicates
+"""
+import os
 
 
 class FileInfo(object):
@@ -31,3 +33,31 @@ class FileInfo(object):
 
     def __str__(self):
         return self.__repr__()
+
+    @classmethod
+    def cmp(cls, first, second):
+        """Compares to FileInfo objects using a more complex algorithm than
+        simply checking the name and the size
+        """
+        return first == second
+
+    @classmethod
+    def create(cls, file_path: str, file_name: str):
+        """Collects the information about the physical file on disk, and factories
+
+        a FileInfo object. Note that the function takes path to the file's location
+        and the file's name as two separate arguments.
+
+        Args:
+            file_path(str): path to the location of the file on the physical disk
+            file_name(str): name of the file
+        """
+
+        full_path = os.path.join(file_path, file_name)
+        info = os.stat(full_path)
+
+        new_file_info = FileInfo(
+            path=file_path,
+            name=file_name,
+            size=info.st_size)
+        return new_file_info

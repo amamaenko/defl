@@ -34,6 +34,18 @@ class FileInfo(object):
     def __str__(self):
         return self.__repr__()
 
+    @property
+    def fpath(self):
+        """Returns the full path to the file object
+        """
+        return os.path.join(self.path, self.name)
+
+    @classmethod
+    def cmp_sz(cls, first, second):
+        """Compare sizes of two FileInfo objects
+        """
+        return first.size == second.size
+
     @classmethod
     def cmp(cls, first, second):
         """Compares to FileInfo objects using a more complex algorithm than

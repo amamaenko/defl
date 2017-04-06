@@ -25,10 +25,7 @@ def find_duplicates(dirs: List[str]) -> List[FileInfo]:
 
     all_duplicate_suspects = _find_duplicates_suspects(all_files)
 
-    for i in all_duplicate_suspects:
-        print("{0} =?= {1}".format(str(i[0]), str(i[1])))
-
-    return all_files
+    return all_duplicate_suspects
 
 def _find_duplicates_suspects(
         file_infos: List[FileInfo])->List[Tuple[FileInfo, FileInfo]]:

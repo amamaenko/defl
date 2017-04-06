@@ -5,7 +5,9 @@ defl application
 """
 import argparse
 import defl.pathutil
+import defl.cliutil
 import defl.core
+
 
 APP_HELP_STR = """
 Finds the duplicated image files 
@@ -42,6 +44,8 @@ def run():
         print(flags)
         print(folder_names)
     else:
-        defl.core.find_duplicates(folder_names)
+        duplicates = defl.core.find_duplicates(folder_names)
+        defl.cliutil.print_duplicates(duplicates)
 
     return 0
+    

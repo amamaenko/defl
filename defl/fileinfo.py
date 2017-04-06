@@ -27,7 +27,7 @@ class FileInfo(object):
         return hash((self.name, self.size))
 
     def __repr__(self):
-        return " path: {0}\n name: {1}\n size: {2}\n".format(
+        return "path: {0}\nname: {1}\nsize: {2}".format(
             self.path, self.name, self.size
         )
 

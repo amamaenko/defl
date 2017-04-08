@@ -5,10 +5,12 @@
 from typing import List, Tuple
 import itertools
 from tqdm import tqdm
-import PIL
 
 import defl.fileutil as fileutil
 from defl.fileinfo import FileInfo
+
+
+FileInfoPair = Tuple[FileInfo, FileInfo]
 
 
 def find_duplicates(dirs: List[str]) -> List[FileInfo]:
@@ -28,13 +30,13 @@ def find_duplicates(dirs: List[str]) -> List[FileInfo]:
     return all_duplicate_suspects
 
 def _find_duplicates_suspects(
-        file_infos: List[FileInfo])->List[Tuple[FileInfo, FileInfo]]:
+        file_infos: List[FileInfo])->List[FileInfoPair]:
     """This method scans the list to find duplicate suspects as pairs, and
     returns them in a list.
     """
     duplicate_suspects = []
     # using a pseudo-UI `tqdm` library to track progress
-    # total number of combinations is n/2 using the math formula
+    # total number of combinations is ~ n^2/2
     combinations_count = len(file_infos)*len(file_infos)/2
     with tqdm(total=combinations_count, unit='pairs', unit_scale=True) as pbar:
         for pair in itertools.combinations(file_infos, 2):
@@ -43,9 +45,3 @@ def _find_duplicates_suspects(
             pbar.update()
 
     return duplicate_suspects
-
-
-def _filter_by_hist(pair: Tuple[FileInfo, FileInfo]):
-    im1 = PIL.Image.open(pair[0].fpath)
-    im2 = PIL.Image.open(pair[1].fpath)
-    return True

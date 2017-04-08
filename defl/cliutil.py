@@ -5,7 +5,11 @@
 from typing import List, Tuple
 from defl.fileinfo import FileInfo
 
-def print_duplicates(pairs: List[Tuple[FileInfo, FileInfo]]):
+FileInfoPair = Tuple[FileInfo, FileInfo]
+FileInfoPairs = List[FileInfoPair]
+
+
+def print_duplicates(pairs: FileInfoPairs):
     """Prints FileInfo pairs that are duplicate suspects
 
     Args:
@@ -13,4 +17,4 @@ def print_duplicates(pairs: List[Tuple[FileInfo, FileInfo]]):
             descriptors
     """
     for pair in pairs:
-        print("{0}; {1}".format(pair[0].fpath, pair[1].fpath))
+        print("\"{0}\" \"{1}\"".format(pair[0].fpath, pair[1].fpath))

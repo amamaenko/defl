@@ -70,7 +70,7 @@ def _filter_by_md5(file_info_pairs: FileInfoPairs)->FileInfoPairs:
             pbar.update()
             return _comp_md5(pair)
         filtered = filter(_progress_comp_md5, file_info_pairs)
-    result = list(filtered)
+        result = list(filtered)
     return result
 
 def _comp_md5(pair: FileInfoPair)->bool:

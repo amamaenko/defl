@@ -33,7 +33,7 @@ support for Google Drive, and similar services.
 
 After setting up the environment use pip:
 
-`pip install -e https://github.com/amamaenko/defl.git#egg=defl`
+`pip install -e git+https://github.com/amamaenko/defl.git#egg=defl`
 
 Then simply type:
 
